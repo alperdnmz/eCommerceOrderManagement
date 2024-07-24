@@ -16,5 +16,5 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue
     @Column(updatable = false, nullable = false)
-    private int id;
+    private Long id;
 }

@@ -5,24 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="Cart")
+@Table(name="CustomerOrder")
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cart extends BaseEntityAudit{
+public class CustomerOrder extends BaseEntityAudit {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customerID", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "productID", referencedColumnName = "id")
-    private Product product;
 
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "totalPrice")
-    private double totalPrice;
 }
