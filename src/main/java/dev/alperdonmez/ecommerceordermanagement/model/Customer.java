@@ -20,17 +20,20 @@ public class Customer extends BaseEntityAudit{
     @OneToMany(mappedBy = "customer")
     private List<CustomerOrder> customerOrders;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "city")
     private String city;
