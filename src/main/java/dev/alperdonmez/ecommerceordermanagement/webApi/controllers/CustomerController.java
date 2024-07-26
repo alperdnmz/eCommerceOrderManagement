@@ -1,7 +1,7 @@
 package dev.alperdonmez.ecommerceordermanagement.webApi.controllers;
 
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerService;
-import dev.alperdonmez.ecommerceordermanagement.dto.requests.CreateCustomerRequest;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateCustomerRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

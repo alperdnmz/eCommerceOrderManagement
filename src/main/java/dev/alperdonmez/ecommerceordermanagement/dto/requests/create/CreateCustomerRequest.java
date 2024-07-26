@@ -1,4 +1,4 @@
-package dev.alperdonmez.ecommerceordermanagement.dto.requests;
+package dev.alperdonmez.ecommerceordermanagement.dto.requests.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
