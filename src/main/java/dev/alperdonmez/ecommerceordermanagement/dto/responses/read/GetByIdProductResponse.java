@@ -1,4 +1,4 @@
-package dev.alperdonmez.ecommerceordermanagement.dto.responses.read.getbyid;
+package dev.alperdonmez.ecommerceordermanagement.dto.responses.read;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

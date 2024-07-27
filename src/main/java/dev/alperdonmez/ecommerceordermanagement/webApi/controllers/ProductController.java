@@ -2,10 +2,9 @@ package dev.alperdonmez.ecommerceordermanagement.webApi.controllers;
 
 import dev.alperdonmez.ecommerceordermanagement.business.service.IProductService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateProductRequest;
-import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.update.UpdateProductRequest;
-import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.getall.GetAllProductsResponse;
-import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.getbyid.GetByIdProductResponse;
+import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetAllProductsResponse;
+import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetByIdProductResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
