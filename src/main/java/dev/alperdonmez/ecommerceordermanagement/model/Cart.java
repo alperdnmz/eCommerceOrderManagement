@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class Cart extends BaseEntityAudit{
 
     @OneToOne
-    @JoinColumn(name = "customerID", referencedColumnName = "id")
+    @JoinColumn(name = "customerId", referencedColumnName = "id")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "productID", referencedColumnName = "id")
+    @JoinColumn(name = "productId", referencedColumnName = "id")
     private Product product;
 
     @Column(name = "quantity")

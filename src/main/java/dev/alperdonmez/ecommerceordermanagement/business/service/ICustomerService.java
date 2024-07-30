@@ -5,5 +5,5 @@ import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetByIdCustom
 
 public interface ICustomerService {
     void add(CreateCustomerRequest createCustomerRequest);
-    GetByIdCustomerResponse getById(int id);
+    GetByIdCustomerResponse getByIdCustomer(int id);
 }

@@ -1,7 +1,7 @@
 package dev.alperdonmez.ecommerceordermanagement.business.service;
 
-import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetByIdProductResponse;
+import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
 
 public interface ICartService {
-    GetByIdProductResponse getById(int id);
+    GetCartResponse getCartByCustomerId(int customerId);
 }

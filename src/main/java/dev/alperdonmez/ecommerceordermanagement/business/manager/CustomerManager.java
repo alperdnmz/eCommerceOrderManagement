@@ -4,6 +4,7 @@ import dev.alperdonmez.ecommerceordermanagement.business.rules.CustomerBusinessR
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerService;
 import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapperService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateCustomerRequest;
+import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetByIdCustomerResponse;
 import dev.alperdonmez.ecommerceordermanagement.model.Customer;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICustomerRepository;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,12 @@ public class CustomerManager implements ICustomerService {
         Customer customer = this.modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
         this.customerRepository.save(customer);
     }
+
+    @Override
+    public GetByIdCustomerResponse getByIdCustomer(int id) {
+        Customer customer = this.customerRepository.findById(id).orElseThrow();
+        GetByIdCustomerResponse response =this.modelMapperService.forResponse().map(customer, GetByIdCustomerResponse.class);
+        return response;
+    }
+
 }
