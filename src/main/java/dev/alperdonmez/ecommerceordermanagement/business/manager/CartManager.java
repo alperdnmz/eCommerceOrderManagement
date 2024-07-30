@@ -3,6 +3,7 @@ package dev.alperdonmez.ecommerceordermanagement.business.manager;
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICartService;
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerService;
 import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapperService;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
 import dev.alperdonmez.ecommerceordermanagement.model.Cart;
 import dev.alperdonmez.ecommerceordermanagement.model.Customer;
@@ -33,5 +34,11 @@ public class CartManager implements ICartService {
         GetCartResponse response = this.modelMapperService.forResponse().map(cart, GetCartResponse.class);
         return response;
 
+    }
+
+    @Override
+    public void add(CreateCartRequest createCartRequest) {
+        Cart cart =this.modelMapperService.forRequest().map(createCartRequest, Cart.class);
+        this.cartRepository.save(cart);
     }
 }
