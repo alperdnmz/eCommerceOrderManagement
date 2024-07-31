@@ -8,21 +8,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name="OrderItem")
+import java.time.LocalDateTime;
+
+@Table(name="ProductHistory")
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItem extends BaseEntityAudit {
-
-    @ManyToOne
-    @JoinColumn(name = "orderId")
-    private CustomerOrder customerOrder;
+public class ProductHistory extends BaseEntityAudit {
 
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
 
-    private  double purchasePrice;
-    private int quantity;
+    private double oldPrice;
+    private LocalDateTime date;
 }

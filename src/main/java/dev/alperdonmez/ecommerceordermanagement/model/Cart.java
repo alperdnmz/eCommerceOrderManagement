@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Table(name="Cart")
 @Entity
 @Data
@@ -16,12 +18,12 @@ public class Cart extends BaseEntityAudit{
     @JoinColumn(name = "customerId", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "productId", referencedColumnName = "id")
-    private Product product;
+    private Product product;*/
 
-    @Column(name = "quantity")
-    private int quantity;
+    @OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems;
 
     @Column(name = "totalPrice")
     private double totalPrice;

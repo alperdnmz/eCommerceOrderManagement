@@ -1,16 +1,27 @@
 package dev.alperdonmez.ecommerceordermanagement.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Table(name="CartItem")
+@Entity
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CartItem extends BaseEntityAudit{
+
+    @ManyToOne
+    @JoinColumn(name = "cartId")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "productId")
     private Product product;
+
+    private double purchasePrice;
     private int quantity;
-    private double totalPrice;
+
 }

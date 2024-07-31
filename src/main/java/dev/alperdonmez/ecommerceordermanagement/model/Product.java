@@ -18,7 +18,7 @@ import java.util.List;
 public class Product extends BaseEntityAudit{
 
     @OneToMany(mappedBy = "product")
-    private List<Cart> carts;
+    private List<ProductHistory> productHistory;
 
     @Column(name = "name")
     private String name;
@@ -26,6 +26,6 @@ public class Product extends BaseEntityAudit{
     @Column(name = "price")
     private double price;
 
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "amount")
+    private int amount;
 }
