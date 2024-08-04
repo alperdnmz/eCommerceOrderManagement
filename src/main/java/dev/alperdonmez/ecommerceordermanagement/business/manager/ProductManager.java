@@ -34,7 +34,7 @@ public class ProductManager implements IProductService {
     }
 
     @Override
-    public GetByIdProductResponse getById(int id) {
+    public GetByIdProductResponse GetByIdProduct(int id) {
         Product product = this.productRepository.findById(id).orElseThrow();
         GetByIdProductResponse response = this.modelMapperService.forResponse().map(product, GetByIdProductResponse.class);
         return response;

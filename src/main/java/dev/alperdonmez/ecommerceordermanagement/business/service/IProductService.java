@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IProductService {
     void add(CreateProductRequest createProductRequest);
-    GetByIdProductResponse getById(int id);
+    GetByIdProductResponse GetByIdProduct(int id);
     List<GetAllProductsResponse> getAll();
     void update(UpdateProductRequest updateProductRequest);
     void delete(int id);

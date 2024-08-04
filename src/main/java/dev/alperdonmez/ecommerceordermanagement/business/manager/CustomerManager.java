@@ -5,6 +5,7 @@ import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerServic
 import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapperService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateCustomerRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetByIdCustomerResponse;
+import dev.alperdonmez.ecommerceordermanagement.model.Cart;
 import dev.alperdonmez.ecommerceordermanagement.model.Customer;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICustomerRepository;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class CustomerManager implements ICustomerService {
     public void add(CreateCustomerRequest createCustomerRequest) {
         this.customerBusinessRules.checkIfCustomerEmailExists(createCustomerRequest.getEmail());
         Customer customer = this.modelMapperService.forRequest().map(createCustomerRequest, Customer.class);
+        Cart cart = this.modelMapperService.forRequest().map(createCustomerRequest, Cart.class);
+        cart.setCustomer(customer);
+        customer.setCart(cart);
+
         this.customerRepository.save(customer);
     }
 

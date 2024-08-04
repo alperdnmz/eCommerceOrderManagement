@@ -4,15 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCartRequest {
-    private int id;
-    private int customerId;
+public class CreateAddProductToCart {
     private int productId;
+    private int customerId;
     private int quantity;
-    private int totalPrice;
 }
