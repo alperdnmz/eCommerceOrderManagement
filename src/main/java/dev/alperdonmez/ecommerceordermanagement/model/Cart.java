@@ -16,6 +16,7 @@ public class Cart extends BaseEntityAudit{
 
     @OneToOne
     @JoinColumn(name = "customerId", referencedColumnName = "id")
+    @MapsId
     private Customer customer;
 
     /*@ManyToOne

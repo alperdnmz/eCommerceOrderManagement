@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateAddProductToCart {
-    private int productId;
     private int customerId;
+    private int productId;
     private int quantity;
 }

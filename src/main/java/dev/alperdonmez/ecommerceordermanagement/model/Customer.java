@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Customer extends BaseEntityAudit{
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
     @OneToMany(mappedBy = "customer")
@@ -35,15 +35,4 @@ public class Customer extends BaseEntityAudit{
     @Column(name = "address")
     private String address;
 
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "zip")
-    private String zip;
-
-    @Column(name = "country")
-    private String country;
 }
