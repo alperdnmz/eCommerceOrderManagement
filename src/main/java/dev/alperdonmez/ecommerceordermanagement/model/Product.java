@@ -26,6 +26,6 @@ public class Product extends BaseEntityAudit{
     @Column(name = "price")
     private double price;
 
-    @Column(name = "amount")
-    private int amount;
+    @Column(name = "quantity")
+    private int quantity;
 }

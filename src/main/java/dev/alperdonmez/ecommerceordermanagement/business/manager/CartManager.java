@@ -5,12 +5,15 @@ import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerServic
 import dev.alperdonmez.ecommerceordermanagement.business.service.IProductService;
 import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapperService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateAddProductToCart;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCart;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.update.UpdateCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.CartItemResponse;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
 import dev.alperdonmez.ecommerceordermanagement.model.Cart;
 import dev.alperdonmez.ecommerceordermanagement.model.CartItem;
 import dev.alperdonmez.ecommerceordermanagement.model.Customer;
 import dev.alperdonmez.ecommerceordermanagement.model.Product;
+import dev.alperdonmez.ecommerceordermanagement.repository.ICartItemRepository;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICartRepository;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICustomerRepository;
 import dev.alperdonmez.ecommerceordermanagement.repository.IProductRepository;
@@ -24,19 +27,17 @@ import java.util.stream.Collectors;
 @Service
 public class CartManager implements ICartService {
 
-    //private final CustomerManager customerManager;
-    private ICustomerService customerService;
     private ICartRepository cartRepository;
-    private ICustomerRepository customerRepository;
     private IModelMapperService modelMapperService;
-    private IProductService productService;
     private IProductRepository productRepository;
+    private ICartItemRepository cartItemRepository;
 
     @Autowired
-    public CartManager(ICartRepository cartRepository, IModelMapperService modelMapperService, IProductRepository productRepository) {
+    public CartManager(ICartRepository cartRepository, IModelMapperService modelMapperService, IProductRepository productRepository, ICartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
         this.modelMapperService = modelMapperService;
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     @Override
@@ -62,13 +63,6 @@ public class CartManager implements ICartService {
         cartResponse.setCartItemsResponseList(items);
         cartResponse.setTotalPrice(cart.getTotalPrice());
 
-       /* if(!cart.getCartItems().isEmpty()) {
-            CartItem cartItem = cart.getCartItems().get(0);
-            cartResponse.setProductId(cartItem.getProduct().getId());
-            cartResponse.setProductName(cartItem.getProduct().getName());
-            cartResponse.setQuantity(cartItem.getQuantity());
-            cartResponse.setTotalPrice(cartItem.getPurchasePrice());
-        }*/
         return cartResponse;
     }
 
@@ -78,6 +72,10 @@ public class CartManager implements ICartService {
         /*GetCartResponse productResponse = this.modelMapperService.forResponse().map(cart, GetCartResponse.class);
         Product product = modelMapperService.forRequest().map(productResponse, Product.class);*/
         Product product = productRepository.findById(createAddProductToCart.getProductId()).orElseThrow(() -> new RuntimeException("Product Not Found!"));
+
+        if((product.getQuantity() == 0) || (product.getQuantity() < createAddProductToCart.getQuantity())) {
+            throw new RuntimeException("Product Quantity Exceeded!");
+        }
 
         Optional<CartItem> existingCartItem = cart.getCartItems().stream()
                 .filter(item -> item.getProduct().getId() == createAddProductToCart.getProductId()).findFirst();
@@ -95,11 +93,59 @@ public class CartManager implements ICartService {
             cart.getCartItems().add(cartItem);
         }
 
+        product.setQuantity(product.getQuantity() - createAddProductToCart.getQuantity());
+        productRepository.save(product);
+
         double totalPrice = cart.getCartItems().stream()
                 .mapToDouble(item -> item.getPurchasePrice() * item.getQuantity()).sum();
         cart.setTotalPrice(totalPrice);
 
         cartRepository.save(cart);
+    }
+
+    @Override
+    public void deleteProductFromCart(DeleteProductFromCart deleteProductFromCart) {
+        Cart cart = cartRepository.findByCustomerId(deleteProductFromCart.getCustomerId()).orElseThrow(() -> new RuntimeException("Cart Not Found!"));
+
+        Optional<CartItem> existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId() == deleteProductFromCart.getProductId()).findFirst();
+
+        if(existingCartItem.isPresent()) {
+            CartItem cartItem = existingCartItem.get();
+            int quantity = cartItem.getQuantity();
+            cart.getCartItems().remove(cartItem);
+
+            Product product = cartItem.getProduct();
+            product.setQuantity(product.getQuantity() + cartItem.getQuantity());
+            productRepository.save(product);
+
+            double totalPrice = cart.getCartItems().stream()
+                    .mapToDouble(item -> item.getPurchasePrice() * item.getQuantity()).sum();
+            cart.setTotalPrice(totalPrice);
+
+            cartRepository.save(cart);
+        } else {
+            throw new RuntimeException("Cart Not Found!");
+        }
+    }
+
+    @Override
+    public void updateCart(UpdateCartRequest updateCartRequest) {
+        CartItem cartItem = cartItemRepository.findByProductIdAndCartId(
+                updateCartRequest.getCartId(), updateCartRequest.getProductId()
+        ).orElseThrow(() -> new RuntimeException("CartItem Not Found For The Customer!"));
+
+        /*Optional<CartItem> optionalCartItem = cartItemRepository.findCartItemByCartId(
+                updateCartRequest.getCartItemId(), updateCartRequest.getCartId());
+
+        CartItem cartItem = optionalCartItem.orElseThrow(() -> new RuntimeException("CartItem Not Found For The Customer!"));
+*/
+        //QUANTITY GUNCELLE
+        if(updateCartRequest.getQuantity() != 0) {
+            cartItem.setQuantity(updateCartRequest.getQuantity());
+        }
+
+        cartItemRepository.save(cartItem);
     }
 
 
