@@ -1,9 +1,6 @@
 package dev.alperdonmez.ecommerceordermanagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +20,9 @@ public class OrderItem extends BaseEntityAudit {
     @JoinColumn(name = "productId")
     private Product product;
 
-    private  double purchasePrice;
+    @Column(name = "quantity")
     private int quantity;
+
+    @Column(name = "purchasePrice")
+    private  double purchasePrice;
 }

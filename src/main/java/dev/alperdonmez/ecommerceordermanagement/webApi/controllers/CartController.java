@@ -1,8 +1,9 @@
 package dev.alperdonmez.ecommerceordermanagement.webApi.controllers;
 
+import dev.alperdonmez.ecommerceordermanagement.business.manager.CartManager;
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICartService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateAddProductToCart;
-import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCart;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.update.UpdateCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cart")
 @AllArgsConstructor
 public class CartController {
+    private final CartManager cartManager;
     private ICartService cartService;
 
     @GetMapping("/{customerId}")
@@ -25,12 +27,17 @@ public class CartController {
     }
 
     @DeleteMapping("/delete")
-    public void deleteProductFromCart(@RequestBody DeleteProductFromCart deleteProductFromCart) {
-        cartService.deleteProductFromCart(deleteProductFromCart);
+    public void deleteProductFromCart(@RequestBody DeleteProductFromCartRequest deleteProductFromCartRequest) {
+        cartService.deleteProductFromCart(deleteProductFromCartRequest);
     }
 
     @PostMapping("/update")
     public void UpdateCart(@RequestBody UpdateCartRequest updateCartRequest) {
         cartService.updateCart(updateCartRequest);
+    }
+
+    @DeleteMapping("/empty/{cartId}")
+    public void emptyCart(@PathVariable int cartId) {
+        cartManager.deleteByCartId(cartId);
     }
 }

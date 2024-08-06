@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface ICartItemRepository extends JpaRepository<CartItem, Integer> {
     Optional<CartItem> findByProductIdAndCartId(int cartId, int productId);
+    void deleteByCartId(int cartId);
 }

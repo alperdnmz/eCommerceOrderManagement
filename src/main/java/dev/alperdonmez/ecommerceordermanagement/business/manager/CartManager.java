@@ -1,11 +1,9 @@
 package dev.alperdonmez.ecommerceordermanagement.business.manager;
 
 import dev.alperdonmez.ecommerceordermanagement.business.service.ICartService;
-import dev.alperdonmez.ecommerceordermanagement.business.service.ICustomerService;
-import dev.alperdonmez.ecommerceordermanagement.business.service.IProductService;
 import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapperService;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateAddProductToCart;
-import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCart;
+import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.update.UpdateCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.CartItemResponse;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
@@ -15,8 +13,8 @@ import dev.alperdonmez.ecommerceordermanagement.model.Customer;
 import dev.alperdonmez.ecommerceordermanagement.model.Product;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICartItemRepository;
 import dev.alperdonmez.ecommerceordermanagement.repository.ICartRepository;
-import dev.alperdonmez.ecommerceordermanagement.repository.ICustomerRepository;
 import dev.alperdonmez.ecommerceordermanagement.repository.IProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -104,11 +102,11 @@ public class CartManager implements ICartService {
     }
 
     @Override
-    public void deleteProductFromCart(DeleteProductFromCart deleteProductFromCart) {
-        Cart cart = cartRepository.findByCustomerId(deleteProductFromCart.getCustomerId()).orElseThrow(() -> new RuntimeException("Cart Not Found!"));
+    public void deleteProductFromCart(DeleteProductFromCartRequest deleteProductFromCartRequest) {
+        Cart cart = cartRepository.findByCustomerId(deleteProductFromCartRequest.getCustomerId()).orElseThrow(() -> new RuntimeException("Cart Not Found!"));
 
         Optional<CartItem> existingCartItem = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getId() == deleteProductFromCart.getProductId()).findFirst();
+                .filter(item -> item.getProduct().getId() == deleteProductFromCartRequest.getProductId()).findFirst();
 
         if(existingCartItem.isPresent()) {
             CartItem cartItem = existingCartItem.get();
@@ -148,5 +146,8 @@ public class CartManager implements ICartService {
         cartItemRepository.save(cartItem);
     }
 
-
+    @Transactional
+    public void deleteByCartId(int cartId) {
+        cartItemRepository.deleteByCartId(cartId);
+    }
 }

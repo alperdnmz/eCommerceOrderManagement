@@ -21,5 +21,9 @@ public class CustomerOrder extends BaseEntityAudit {
     @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
+    @Column(name = "totalQuantity")
+    private int totalQuantity;
+
+    @Column(name = "totalPrice")
     private double totalPrice;
 }
