@@ -3,6 +3,7 @@ package dev.alperdonmez.ecommerceordermanagement.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"customer", "cartItems"})
 public class Cart extends BaseEntityAudit{
 
     @OneToOne

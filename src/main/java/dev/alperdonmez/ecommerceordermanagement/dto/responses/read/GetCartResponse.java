@@ -14,6 +14,6 @@ public class GetCartResponse {
     private int customerId;
     private String customerFirstName;
     private String customerLastName;
-    private List<CartItemResponse> cartItemsResponseList;
+    private List<GetCartItemResponse> cartItemsResponseList;
     private double totalPrice;
 }

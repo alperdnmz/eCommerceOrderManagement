@@ -1,5 +1,6 @@
 package dev.alperdonmez.ecommerceordermanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class OrderItem extends BaseEntityAudit {
 
     @ManyToOne
     @JoinColumn(name = "orderId")
+    @JsonBackReference
     private CustomerOrder customerOrder;
 
     @ManyToOne

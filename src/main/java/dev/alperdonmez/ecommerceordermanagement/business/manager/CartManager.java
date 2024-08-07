@@ -5,7 +5,7 @@ import dev.alperdonmez.ecommerceordermanagement.core.mappers.services.IModelMapp
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.create.CreateAddProductToCart;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.delete.DeleteProductFromCartRequest;
 import dev.alperdonmez.ecommerceordermanagement.dto.requests.update.UpdateCartRequest;
-import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.CartItemResponse;
+import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartItemResponse;
 import dev.alperdonmez.ecommerceordermanagement.dto.responses.read.GetCartResponse;
 import dev.alperdonmez.ecommerceordermanagement.model.Cart;
 import dev.alperdonmez.ecommerceordermanagement.model.CartItem;
@@ -43,8 +43,8 @@ public class CartManager implements ICartService {
         Cart cart = cartRepository.findByCustomerId(customerId).orElseThrow(() -> new RuntimeException("Cart not found"));
         Customer customer = cart.getCustomer();
 
-        List<CartItemResponse> items = cart.getCartItems().stream()
-                .map(cartItem -> { CartItemResponse cartItemsResponse = new CartItemResponse();
+        List<GetCartItemResponse> items = cart.getCartItems().stream()
+                .map(cartItem -> { GetCartItemResponse cartItemsResponse = new GetCartItemResponse();
                     cartItemsResponse.setProductId(cartItem.getProduct().getId());
                     cartItemsResponse.setProductName(cartItem.getProduct().getName());
                     cartItemsResponse.setQuantity(cartItem.getQuantity());

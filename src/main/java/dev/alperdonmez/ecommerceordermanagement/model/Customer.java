@@ -1,8 +1,10 @@
 package dev.alperdonmez.ecommerceordermanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -12,12 +14,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"cart", "customerOrders"})
 public class Customer extends BaseEntityAudit{
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Cart cart;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<CustomerOrder> customerOrders;
 
     @Column(name = "firstName")
